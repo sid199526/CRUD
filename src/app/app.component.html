@@ -1,0 +1,75 @@
+
+<p-splitter  styleClass="mb-5">
+  <ng-template pTemplate>
+      <div class="col flex align-items-center justify-content-center">
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+          <h1>Create Product</h1>
+          <label for="">Product Name</label><br>
+          <input matInput type="text" pInputText  formControlName="name"/>
+          <br><br>
+          <label for="">Product Price</label><br>
+          <input matInput type="number" pInputText  formControlName="value"/>
+          <br><br>
+          <label for="">Product Category</label><br>
+          <p-dropdown 
+          [options]="categoryData" 
+          formControlName="category"
+          placeholder="Select a Category" />
+          <br><br>
+          <button pButton pRipple label="Submit" class="p-button-success"  type="submit" [disabled]="productForm.invalid">
+          </button>
+        </form>
+      </div>
+  </ng-template>
+  <ng-template pTemplate>
+      <div class="col" [style]="{ height: '400px', overflow:'auto' }">
+        <h1>Product List</h1>
+        <button pButton pRipple  class="p-button-primary" (click)="sort_table_by_name()" >Sort By Name
+        </button>
+        <button pButton pRipple class="p-button-danger" (click)="sort_table_by_price()">Sort By Price
+        </button>
+        
+        <p-table [value]="tableData">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Id</th>
+                 <th>Name</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                  <th colspan="2" style="text-align: center;">Action</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-get let-i="rowIndex">
+              <tr>
+                <td>{{get.id}}</td>
+                  <td>{{ get.name}}</td>
+                  <td>{{ get.value }}</td>
+                  <td>{{ get.category }}</td>
+                  <td>
+                    <button mat-stroked-button (click)="delete(i)">Delete</button>
+                 </td>
+                <td>
+                <button mat-stroked-button (click)="edit(i)">Edit</button>
+              </td>
+              </tr>
+          </ng-template>
+        </p-table>
+      </div>
+  </ng-template>
+</p-splitter> 
+
+<p-card header="Product Pie Graph" [style]="{ background: '#ffffff',color:'black',height:'600px' }">
+  <section *ngIf = "single.length">
+    <ngx-charts-pie-chart
+    [scheme]="colorScheme"
+    [results]="single"
+    [legend]="showLegend"
+    [explodeSlices]="explodeSlices"
+    [labels]="showLabels"
+    [doughnut]="doughnut"
+    [gradient]="gradient"
+    (select)="onSelect($event)">
+</ngx-charts-pie-chart>         
+  </section>
+</p-card>
+
